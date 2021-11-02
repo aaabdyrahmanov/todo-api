@@ -47,3 +47,5 @@ coverage/
 
 # Environment variables
 .env
+
+pgdata/

@@ -66,7 +66,7 @@ router.get('/', async (req: Request, res: Response): Promise<Response> => {
 
 router.put(
  '/:id',
- //  validationMiddleware(UUIDIdParamDto, ValidationSource.PARAM),
+ validationMiddleware(UUIDIdParamDto, ValidationSource.PARAM),
  validationMiddleware(UpdateTaskDto, ValidationSource.BODY),
  async (req: Request, res: Response): Promise<Response> => {
   try {

@@ -37,7 +37,6 @@ export default function dtoValidationMiddleware(
     }
 
     // call the next middleware
-    req.body = dtoObj;
     next();
    }
   );

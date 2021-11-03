@@ -9,8 +9,6 @@ jest.mock("typeorm");
 const mockedGetRepo = mocked(getRepository(<jest.Mock>{}));
 beforeEach(() => {
   mockedGetRepo.find.mockClear();
-  mockedGetRepo.findOne.mockClear();
-  mockedGetRepo.save.mockClear();
 });
 
 describe("TaskRepository", () => {

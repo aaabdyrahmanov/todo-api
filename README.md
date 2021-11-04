@@ -1,7 +1,7 @@
 # To-Do RESTful API
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/16055227/UVByKqVG)
 
-To-Do RESTful API to manage daily tasks with their to-do, in-progress and completed statuses. App built with Node/Express with TypeScript and PostgreSQL, using the TypeORM library. API gives an ability of performing a CRUD operations on tasks.
+To-Do RESTful API to manage daily tasks with their `to-do`, `in-progress` and `completed` statuses. App built with Node/Express with TypeScript and PostgreSQL, using the TypeORM library. API gives an ability of performing a CRUD operations on tasks.
 
 
 ## Getting Started
@@ -54,6 +54,8 @@ yarn test
 
 ### API endpoints
 
+- ✅ Health check `GET - /v1/health`
+- ✅ OpenAPI Specification `GET - /v1/docs`
 - ✅ Add a new task `POST - /v1/tasks`
 - ✅ Get tasks `GET - /v1/tasks`
 - ✅ Get tasks paginated `GET - /v1/tasks?limit=20&page=2`

@@ -83,6 +83,18 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"ITaskUpdatePayload": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"status": {
+						"$ref": "#/components/schemas/TaskStatusType"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -331,7 +343,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/ITaskPayload"
+								"$ref": "#/components/schemas/ITaskUpdatePayload"
 							}
 						}
 					}

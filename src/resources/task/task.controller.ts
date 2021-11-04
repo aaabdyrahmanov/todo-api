@@ -19,7 +19,7 @@ import {
  deleteTask,
 } from './task.repository';
 
-import {ITaskPayload, TaskStatusType} from './task.interface';
+import {ITaskPayload, ITaskUpdatePayload, TaskStatusType} from './task.interface';
 
 @Route('tasks')
 @Tags('Task')
@@ -81,13 +81,13 @@ export default class TaskController {
   }
 
   @Put('{taskId}')
-  @Example<ITaskPayload>({
+  @Example<ITaskUpdatePayload>({
    name: 'Task 3',
    status: 'in-progress',
   })
   public async updateTask(
     @Path() taskId: string,
-    @Body() body: ITaskPayload
+    @Body() body: ITaskUpdatePayload
   ): Promise<Task> {
    return updateTask(taskId, body);
   }

@@ -17,7 +17,7 @@ router.post(
    const controller = new TaskController();
    const response = await controller.createTask(req.body);
 
-   return res.send(201).send(response);
+   return res.status(201).send(response);
   } catch (err) {
    return res.status(400).send({
     status: 'failure',
@@ -54,7 +54,7 @@ router.get('/', async (req: Request, res: Response): Promise<Response> => {
   const controller = new TaskController();
   const response = await controller.getTasks(limit, page, status);
 
-  return res.send(200).send(response);
+  return res.status(200).send(response);
  } catch (err) {
   return res.status(400).send({
    status: 'failure',

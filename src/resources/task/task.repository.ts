@@ -1,7 +1,7 @@
 import {getRepository} from 'typeorm';
 
 import {Task} from './task.entity';
-import {ITaskPayload, TaskStatusType} from './task.interface';
+import {ITaskPayload, ITaskUpdatePayload, TaskStatusType} from './task.interface';
 import {
  TaskWithThatNameAlreadyExistsException,
  TaskNotFoundException,
@@ -51,7 +51,7 @@ export const createTask = async (payload: ITaskPayload): Promise<Task> => {
 
 export const updateTask = async (
  id: string,
- payload: ITaskPayload
+ payload: ITaskUpdatePayload
 ): Promise<Task> => {
  const taskRepository = getRepository(Task);
  const task = await getTask(id);

@@ -2,7 +2,7 @@
   "entryFile": "src/index.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
   "spec": {
-    "outputDirectory": "build",
+    "outputDirectory": "docs",
     "specVersion": 3
   },
   "ignore": ["**/node_modules/**"]

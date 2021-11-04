@@ -17,7 +17,7 @@ router.post(
    const controller = new TaskController();
    const response = await controller.createTask(req.body);
 
-   return res.send(response);
+   return res.send(201).send(response);
   } catch (err) {
    return res.status(400).send({
     status: 'failure',
@@ -35,9 +35,7 @@ router.get(
    const controller = new TaskController();
    const response = await controller.getTask(req.params.id);
 
-   if (!response) res.status(404).send({message: 'No post found'});
-
-   return res.send(response);
+   return res.status(200).send(response);
   } catch (err) {
    return res.status(404).send({
     status: 'failure',
@@ -55,7 +53,8 @@ router.get('/', async (req: Request, res: Response): Promise<Response> => {
  try {
   const controller = new TaskController();
   const response = await controller.getTasks(limit, page, status);
-  return res.send(response);
+
+  return res.send(200).send(response);
  } catch (err) {
   return res.status(400).send({
    status: 'failure',
@@ -73,7 +72,7 @@ router.put(
    const controller = new TaskController();
    const response = await controller.updateTask(req.params.id, req.body);
 
-   return res.send(response);
+   return res.status(200).send(response);
   } catch (err) {
    return res.status(404).send({
     status: 'failure',
@@ -91,7 +90,7 @@ router.delete(
    const controller = new TaskController();
    const response = await controller.deleteTask(req.params.id);
 
-   return res.send(response);
+   return res.status(200).send(response);
   } catch (err) {
    return res.status(404).send({
     status: 'failure',

@@ -11,7 +11,7 @@ export default class HealthController {
    message: 'OK',
    timestamp: new Date('2021-01-13T13:21:09'),
   })
- public async getStatus(): Promise<IHealthResponse> {
+  static getStatus(): IHealthResponse {
   return {
    uptime: process.uptime(),
    message: 'OK',

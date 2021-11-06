@@ -19,7 +19,11 @@ import {
  deleteTask,
 } from './task.repository';
 
-import {ITaskPayload, ITaskUpdatePayload, TaskStatusType} from './task.interface';
+import {
+ ITaskPayload,
+ ITaskUpdatePayload,
+ TaskStatusType,
+} from './task.interface';
 
 @Route('tasks')
 @Tags('Task')
@@ -48,7 +52,7 @@ export default class TaskController {
     updatedAt: new Date('2021-01-13T13:21:09'),
    },
   ])
- public async getTasks(
+ static async getTasks(
     @Query() limit?: number,
     @Query() page?: number,
     @Query() status?: TaskStatusType
@@ -64,7 +68,7 @@ export default class TaskController {
    createdAt: new Date('2021-10-24T10:11:12'),
    updatedAt: new Date('2021-10-24T10:11:12'),
   })
-  public async createTask(@Body() body: ITaskPayload): Promise<Task> {
+  static async createTask(@Body() body: ITaskPayload): Promise<Task> {
    return createTask(body);
   }
 
@@ -76,7 +80,7 @@ export default class TaskController {
    createdAt: new Date('2020-11-26T09:01:12'),
    updatedAt: new Date('2021-01-13T13:21:09'),
   })
-  public async getTask(@Path() taskId: string): Promise<Task> {
+  static async getTask(@Path() taskId: string): Promise<Task> {
    return getTask(taskId);
   }
 
@@ -85,7 +89,7 @@ export default class TaskController {
    name: 'Task 3',
    status: 'in-progress',
   })
-  public async updateTask(
+  static async updateTask(
     @Path() taskId: string,
     @Body() body: ITaskUpdatePayload
   ): Promise<Task> {
@@ -93,7 +97,7 @@ export default class TaskController {
   }
 
   @Delete('{taskId}')
-  public async deleteTask(@Path() taskId: string): Promise<Task> {
+  static async deleteTask(@Path() taskId: string): Promise<Task> {
    return deleteTask(taskId);
   }
 }

@@ -15,8 +15,7 @@ router.post(
  validateDto(CreateTaskDto, ValidationSource.BODY),
  async (req: Request, res: Response): Promise<Response> => {
   try {
-   const controller = new TaskController();
-   const response = await controller.createTask(req.body);
+   const response = await TaskController.createTask(req.body);
 
    return res.status(201).send(response);
   } catch (err) {
@@ -33,8 +32,7 @@ router.get(
  validateDto(UUIDIdParamDto, ValidationSource.PARAM),
  async (req: Request, res: Response): Promise<Response> => {
   try {
-   const controller = new TaskController();
-   const response = await controller.getTask(req.params.id);
+   const response = await TaskController.getTask(req.params.id);
 
    return res.status(200).send(response);
   } catch (err) {
@@ -52,8 +50,7 @@ router.get('/', async (req: Request, res: Response): Promise<Response> => {
  const status: TaskStatusType = (req.query as any).status;
 
  try {
-  const controller = new TaskController();
-  const response = await controller.getTasks(limit, page, status);
+  const response = await TaskController.getTasks(limit, page, status);
 
   return res.status(200).send(response);
  } catch (err) {
@@ -70,8 +67,7 @@ router.put(
  validateDto(UpdateTaskDto, ValidationSource.BODY),
  async (req: Request, res: Response): Promise<Response> => {
   try {
-   const controller = new TaskController();
-   const response = await controller.updateTask(req.params.id, req.body);
+   const response = await TaskController.updateTask(req.params.id, req.body);
 
    return res.status(200).send(response);
   } catch (err) {
@@ -88,8 +84,7 @@ router.delete(
  validateDto(UUIDIdParamDto, ValidationSource.PARAM),
  async (req: Request, res: Response): Promise<Response> => {
   try {
-   const controller = new TaskController();
-   const response = await controller.deleteTask(req.params.id);
+   const response = await TaskController.deleteTask(req.params.id);
 
    return res.status(200).send(response);
   } catch (err) {

@@ -3,9 +3,8 @@ import HealthController from './health.controller';
 
 const router = express.Router();
 
-router.get('/', async (_req: Request, res: Response): Promise<Response> => {
- const controller = new HealthController();
- const response = await controller.getStatus();
+router.get('/', (_req: Request, res: Response): Response => {
+ const response = HealthController.getStatus();
 
  return res.status(200).send(response);
 });

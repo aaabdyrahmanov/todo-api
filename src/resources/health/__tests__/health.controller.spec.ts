@@ -1,8 +1,7 @@
 import HealthController from "../health.controller";
 
-test("should return health status", async (): Promise<void> => {
-  const controller = new HealthController();
-  const response = await controller.getStatus();
+test("should return health status", (): void => {
+  const response = HealthController.getStatus();
 
   expect(response.uptime).toBeGreaterThan(0);
   expect(response.message).toBe("OK");

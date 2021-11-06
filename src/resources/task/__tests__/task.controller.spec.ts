@@ -14,8 +14,7 @@ describe("TaskController", () => {
       const spy = jest
         .spyOn(TaskRepository, "getTasks")
         .mockResolvedValueOnce([]);
-      const controller = new TaskController();
-      const tasks = await controller.getTasks(limit, page);
+      const tasks = await TaskController.getTasks(limit, page);
       expect(tasks).toEqual([]);
       expect(spy).toHaveBeenCalledWith(limit, page, undefined);
       expect(spy).toHaveBeenCalledTimes(1);

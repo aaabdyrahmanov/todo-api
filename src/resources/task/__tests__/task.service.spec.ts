@@ -36,7 +36,7 @@ describe('task controllers', () => {
    const taskId = 'df625914';
    return api.put(`/v1/tasks/${taskId}`).expect(400);
   });
-     
+
   it('Tasks #6 - should fail to update the task with missing ID', () => {
    const taskId = 'df625914-a17e-4d81-9572-be1f08387d42';
    return api.put(`/v1/tasks/${taskId}`).expect(404);

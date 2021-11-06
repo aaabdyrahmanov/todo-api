@@ -1,10 +1,9 @@
 import {HttpException} from './HttpException';
-import {TaskNotFoundException} from './TaskNotFoundException';
-// eslint-disable-next-line max-len
-import {TaskWithThatNameAlreadyExistsException} from './TaskWithThatNameAlreadyExistsException';
+import {NotFoundException} from './NotFoundException';
+import {AlreadyExistsException} from './AlreadyExistsException';
 
 export {
  HttpException,
- TaskNotFoundException,
- TaskWithThatNameAlreadyExistsException,
+ NotFoundException,
+ AlreadyExistsException,
 };

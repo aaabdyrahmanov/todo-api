@@ -2,7 +2,8 @@ import express, {Request, Response} from 'express';
 import TaskController from './task.controller';
 
 import {CreateTaskDto, UpdateTaskDto, UUIDIdParamDto} from './task.dto';
-import validationMiddleware from '../../middleware/validation.middleware';
+import {validateDto} from '../../middleware';
+import {HttpException} from '../../exception';
 
 import {ValidationSource} from '../../types';
 import {TaskStatusType} from './task.interface';
@@ -11,7 +12,7 @@ const router = express.Router();
 
 router.post(
  '/',
- validationMiddleware(CreateTaskDto, ValidationSource.BODY),
+ validateDto(CreateTaskDto, ValidationSource.BODY),
  async (req: Request, res: Response): Promise<Response> => {
   try {
    const controller = new TaskController();
@@ -19,9 +20,9 @@ router.post(
 
    return res.status(201).send(response);
   } catch (err) {
-   return res.status(400).send({
+   return res.status((err as HttpException).status).send({
     status: 'failure',
-    message: (err as Error).message,
+    message: (err as HttpException).message,
    });
   }
  }
@@ -29,7 +30,7 @@ router.post(
 
 router.get(
  '/:id',
- validationMiddleware(UUIDIdParamDto, ValidationSource.PARAM),
+ validateDto(UUIDIdParamDto, ValidationSource.PARAM),
  async (req: Request, res: Response): Promise<Response> => {
   try {
    const controller = new TaskController();
@@ -37,9 +38,9 @@ router.get(
 
    return res.status(200).send(response);
   } catch (err) {
-   return res.status(404).send({
+   return res.status((err as HttpException).status).send({
     status: 'failure',
-    message: (err as Error).message,
+    message: (err as HttpException).message,
    });
   }
  }
@@ -56,17 +57,17 @@ router.get('/', async (req: Request, res: Response): Promise<Response> => {
 
   return res.status(200).send(response);
  } catch (err) {
-  return res.status(400).send({
+  return res.status((err as HttpException).status).send({
    status: 'failure',
-   message: (err as Error).message,
+   message: (err as HttpException).message,
   });
  }
 });
 
 router.put(
  '/:id',
- validationMiddleware(UUIDIdParamDto, ValidationSource.PARAM),
- validationMiddleware(UpdateTaskDto, ValidationSource.BODY),
+ validateDto(UUIDIdParamDto, ValidationSource.PARAM),
+ validateDto(UpdateTaskDto, ValidationSource.BODY),
  async (req: Request, res: Response): Promise<Response> => {
   try {
    const controller = new TaskController();
@@ -74,9 +75,9 @@ router.put(
 
    return res.status(200).send(response);
   } catch (err) {
-   return res.status(404).send({
+   return res.status((err as HttpException).status).send({
     status: 'failure',
-    message: (err as Error).message,
+    message: (err as HttpException).message,
    });
   }
  }
@@ -84,7 +85,7 @@ router.put(
 
 router.delete(
  '/:id',
- validationMiddleware(UUIDIdParamDto, ValidationSource.PARAM),
+ validateDto(UUIDIdParamDto, ValidationSource.PARAM),
  async (req: Request, res: Response): Promise<Response> => {
   try {
    const controller = new TaskController();
@@ -92,9 +93,9 @@ router.delete(
 
    return res.status(200).send(response);
   } catch (err) {
-   return res.status(404).send({
+   return res.status((err as HttpException).status).send({
     status: 'failure',
-    message: (err as Error).message,
+    message: (err as HttpException).message,
    });
   }
  }

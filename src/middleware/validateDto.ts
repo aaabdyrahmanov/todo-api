@@ -11,7 +11,7 @@ import {ValidationSource} from '../types';
  * @param {Boolean} skipMissingProperties
  * @return {Response|void}
  */
-export default function dtoValidationMiddleware(
+export function validateDto(
  type: any,
  source: ValidationSource = ValidationSource.BODY,
  skipMissingProperties = false

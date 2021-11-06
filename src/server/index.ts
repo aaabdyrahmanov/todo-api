@@ -11,7 +11,7 @@ import TaskRouter from '../resources/task/task.router';
 
 import logger from '../utils/logger';
 
-import {handleError} from '../middleware/errorHandler.mddleware';
+import {handleError} from '../middleware';
 
 const app: Application = express();
 

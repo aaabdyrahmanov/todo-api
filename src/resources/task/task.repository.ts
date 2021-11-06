@@ -1,11 +1,13 @@
 import {getRepository} from 'typeorm';
 
+import {AlreadyExistsException, NotFoundException} from '../../exception';
+import {Resource} from '../../types';
 import {Task} from './task.entity';
-import {ITaskPayload, ITaskUpdatePayload, TaskStatusType} from './task.interface';
 import {
- TaskWithThatNameAlreadyExistsException,
- TaskNotFoundException,
-} from '../../exception';
+ ITaskPayload,
+ ITaskUpdatePayload,
+ TaskStatusType,
+} from './task.interface';
 
 export const getTasks = async (
  limit: number | undefined,
@@ -29,7 +31,7 @@ export const getTask = async (id: string): Promise<Task> => {
  const taskRepository = getRepository(Task);
  const task = await taskRepository.findOne(id, {where: {isActive: true}});
 
- if (!task) throw new TaskNotFoundException(id);
+ if (!task) throw new NotFoundException(Resource.TASK, id);
 
  return task;
 };
@@ -39,7 +41,7 @@ export const createTask = async (payload: ITaskPayload): Promise<Task> => {
  const task = await taskRepository.findOne({name: payload.name});
 
  if (task) {
-  throw new TaskWithThatNameAlreadyExistsException(task.name);
+  throw new AlreadyExistsException(Resource.TASK, task.name);
  }
 
  const createTask = new Task();

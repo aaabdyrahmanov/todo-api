@@ -1,388 +1,687 @@
 {
-	"components": {
-		"examples": {},
-		"headers": {},
-		"parameters": {},
-		"requestBodies": {},
-		"responses": {},
-		"schemas": {
-			"IHealthResponse": {
-				"properties": {
-					"uptime": {
-						"type": "number",
-						"format": "double"
-					},
-					"message": {
-						"type": "string"
-					},
-					"timestamp": {
-						"type": "string",
-						"format": "date-time"
-					}
-				},
-				"required": [
-					"uptime",
-					"message",
-					"timestamp"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"TaskStatusType": {
-				"type": "string",
-				"enum": [
-					"to-do",
-					"in-progress",
-					"completed"
-				]
-			},
-			"Task": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"status": {
-						"$ref": "#/components/schemas/TaskStatusType"
-					},
-					"isActive": {
-						"type": "boolean"
-					},
-					"createdAt": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"updatedAt": {
-						"type": "string",
-						"format": "date-time"
-					}
-				},
-				"required": [
-					"id",
-					"name",
-					"status",
-					"createdAt",
-					"updatedAt"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ITaskPayload": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"status": {
-						"$ref": "#/components/schemas/TaskStatusType"
-					}
-				},
-				"required": [
-					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ITaskUpdatePayload": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"status": {
-						"$ref": "#/components/schemas/TaskStatusType"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			}
-		},
-		"securitySchemes": {}
-	},
-	"info": {
-		"title": "todo-api",
-		"version": "1.0.0",
-		"description": "To-Do RESTful API",
-		"license": {
-			"name": "MIT"
-		},
-		"contact": {}
-	},
-	"openapi": "3.0.0",
-	"paths": {
-		"/health": {
-			"get": {
-				"operationId": "GetStatus",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IHealthResponse"
-								},
-								"examples": {
-									"Example 1": {
-										"value": {
-											"uptime": 341,
-											"message": "OK",
-											"timestamp": "2021-01-13T10:21:09.000Z"
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Health"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/tasks": {
-			"get": {
-				"operationId": "GetTasks",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/Task"
-									},
-									"type": "array"
-								},
-								"examples": {
-									"Example 1": {
-										"value": [
-											{
-												"id": "7b0a1e58-e9fe-4a23-a5a2-081ddd22a6c8",
-												"name": "Task 1",
-												"status": "to-do",
-												"createdAt": "2021-02-17T10:21:09.000Z",
-												"updatedAt": "2021-02-17T10:21:09.000Z"
-											},
-											{
-												"id": "7b0a1e58-e9fe-4a23-a5a2-081ddd22a6c8",
-												"name": "Task 2",
-												"status": "in-progress",
-												"createdAt": "2021-10-14T10:14:21.000Z",
-												"updatedAt": "2021-10-17T18:10:07.000Z"
-											},
-											{
-												"id": "c325876b-7d81-4a62-bb65-b6d842e1ef17",
-												"name": "Task 3",
-												"status": "completed",
-												"createdAt": "2020-11-26T06:01:12.000Z",
-												"updatedAt": "2021-01-13T10:21:09.000Z"
-											}
-										]
-									}
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Task"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "limit",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "page",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "status",
-						"required": false,
-						"schema": {
-							"$ref": "#/components/schemas/TaskStatusType"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "CreateTask",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Task"
-								},
-								"examples": {
-									"Example 1": {
-										"value": {
-											"id": "c325876b-7d81-4a62-bb65-b6d842e1ef17",
-											"name": "Task 1",
-											"status": "to-do",
-											"createdAt": "2021-10-24T07:11:12.000Z",
-											"updatedAt": "2021-10-24T07:11:12.000Z"
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Task"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/ITaskPayload"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/tasks/{taskId}": {
-			"get": {
-				"operationId": "GetTask",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Task"
-								},
-								"examples": {
-									"Example 1": {
-										"value": {
-											"id": "c325876b-7d81-4a62-bb65-b6d842e1ef17",
-											"name": "Task 3",
-											"status": "completed",
-											"createdAt": "2020-11-26T06:01:12.000Z",
-											"updatedAt": "2021-01-13T10:21:09.000Z"
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Task"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "taskId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
-			"put": {
-				"operationId": "UpdateTask",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Task"
-								},
-								"examples": {
-									"Example 1": {
-										"value": {
-											"name": "Task 3",
-											"status": "in-progress"
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Task"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "taskId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/ITaskUpdatePayload"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteTask",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Task"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Task"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "taskId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		}
-	},
-	"servers": [
-		{
-			"url": "/"
-		}
-	]
+  "components": {
+    "examples": {},
+    "headers": {},
+    "parameters": {},
+    "requestBodies": {},
+    "responses": {},
+    "schemas": {
+      "IHealthResponse": {
+        "properties": {
+          "uptime": {
+            "type": "number",
+            "format": "double"
+          },
+          "message": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["uptime", "message", "timestamp"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "UserResponseDto": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["id", "username", "role", "createdAt"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "UserRoleType": {
+        "enum": ["admin", "user"],
+        "type": "string"
+      },
+      "IUserPayload": {
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRoleType"
+          }
+        },
+        "required": ["username", "password", "role"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "User": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRoleType"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "password",
+          "role",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "IUserUpdatePayload": {
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRoleType"
+          }
+        },
+        "type": "object",
+        "additionalProperties": false
+      },
+      "TaskStatusType": {
+        "type": "string",
+        "enum": ["to-do", "in-progress", "completed"]
+      },
+      "Task": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TaskStatusType"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["id", "name", "status", "createdAt", "updatedAt"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "ITaskPayload": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TaskStatusType"
+          }
+        },
+        "required": ["name"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "ITaskUpdatePayload": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TaskStatusType"
+          }
+        },
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {}
+  },
+  "info": {
+    "title": "todo-api",
+    "version": "1.0.0",
+    "description": "To-Do RESTful API",
+    "license": {
+      "name": "MIT"
+    },
+    "contact": {}
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "GetStatus",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IHealthResponse"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "uptime": 341,
+                      "message": "OK",
+                      "timestamp": "2021-01-13T10:21:09.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Health"],
+        "security": [],
+        "parameters": []
+      }
+    },
+    "/users": {
+      "post": {
+        "operationId": "CreateUser",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": "7b0a1e58-e9fe-4a23-a5a2-081ddd22a6c8",
+                      "username": "Jane Doe",
+                      "role": "admin",
+                      "createdAt": "2021-10-24T07:11:12.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IUserPayload"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "GetUsers",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponseDto"
+                  },
+                  "type": "array"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": [
+                      {
+                        "id": "93b2ac04-02fe-4d3c-9adc-7f39d511bf0e",
+                        "username": "Jane Doe",
+                        "role": "admin",
+                        "createdAt": "2021-02-17T10:21:09.000Z",
+                        "updatedAt": "2021-02-17T10:21:09.000Z"
+                      },
+                      {
+                        "id": "7b0a1e58-e9fe-4a23-a5a2-081ddd22a6c8",
+                        "username": "John Doe",
+                        "role": "user",
+                        "createdAt": "2021-02-17T10:21:09.000Z",
+                        "updatedAt": "2021-10-17T18:10:07.000Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "role",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/UserRoleType"
+            }
+          }
+        ]
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "operationId": "GetUser",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": "31bee44e-1feb-4aa5-a6f8-2ead6056becd",
+                      "username": "John Doe",
+                      "role": "user",
+                      "createdAt": "2021-10-24T07:11:12.000Z",
+                      "updatedAt": "2021-10-24T07:11:12.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "operationId": "UpdateUser",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": "199a3692-d65e-49f7-8400-330cc434b372",
+                      "username": "Jane Doe",
+                      "role": "admin",
+                      "createdAt": "2021-02-17T10:21:09.000Z",
+                      "updatedAt": "2021-07-02T13:32:17.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IUserUpdatePayload"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteUser",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": "199a3692-d65e-49f7-8400-330cc434b372",
+                      "username": "Jane Doe",
+                      "role": "admin",
+                      "createdAt": "2021-02-17T10:21:09.000Z",
+                      "updatedAt": "2021-07-02T13:32:17.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/tasks": {
+      "get": {
+        "operationId": "GetTasks",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  },
+                  "type": "array"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": [
+                      {
+                        "id": "7b0a1e58-e9fe-4a23-a5a2-081ddd22a6c8",
+                        "name": "Task 1",
+                        "status": "to-do",
+                        "createdAt": "2021-02-17T10:21:09.000Z",
+                        "updatedAt": "2021-02-17T10:21:09.000Z"
+                      },
+                      {
+                        "id": "7b0a1e58-e9fe-4a23-a5a2-081ddd22a6c8",
+                        "name": "Task 2",
+                        "status": "in-progress",
+                        "createdAt": "2021-10-14T10:14:21.000Z",
+                        "updatedAt": "2021-10-17T18:10:07.000Z"
+                      },
+                      {
+                        "id": "c325876b-7d81-4a62-bb65-b6d842e1ef17",
+                        "name": "Task 3",
+                        "status": "completed",
+                        "createdAt": "2020-11-26T06:01:12.000Z",
+                        "updatedAt": "2021-01-13T10:21:09.000Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Task"],
+        "security": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/TaskStatusType"
+            }
+          }
+        ]
+      },
+      "post": {
+        "operationId": "CreateTask",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": "c325876b-7d81-4a62-bb65-b6d842e1ef17",
+                      "name": "Task 1",
+                      "status": "to-do",
+                      "createdAt": "2021-10-24T07:11:12.000Z",
+                      "updatedAt": "2021-10-24T07:11:12.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Task"],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ITaskPayload"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{taskId}": {
+      "get": {
+        "operationId": "GetTask",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": "c325876b-7d81-4a62-bb65-b6d842e1ef17",
+                      "name": "Task 3",
+                      "status": "completed",
+                      "createdAt": "2020-11-26T06:01:12.000Z",
+                      "updatedAt": "2021-01-13T10:21:09.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Task"],
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "operationId": "UpdateTask",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "name": "Task 3",
+                      "status": "in-progress"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Task"],
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ITaskUpdatePayload"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteTask",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Task"],
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ]
 }

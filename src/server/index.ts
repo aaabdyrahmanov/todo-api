@@ -7,6 +7,7 @@ import helmet from 'helmet';
 
 import DocsRouter from '../resources/docs/docs.router';
 import HealthRouter from '../resources/health/health.router';
+import UserRouter from '../resources/user/user.router';
 import TaskRouter from '../resources/task/task.router';
 
 import logger from '../utils/logger';
@@ -35,6 +36,7 @@ app.use(handleError);
 // attach routes
 app.use('/v1/docs', DocsRouter);
 app.use('/v1/health', HealthRouter);
+app.use('/v1/users', UserRouter);
 app.use('/v1/tasks', TaskRouter);
 
 // catch 404 and forward to error handler

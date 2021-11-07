@@ -5,4 +5,5 @@ export enum ValidationSource {
 
 export enum Resource {
   TASK = 'Task',
+  USER = 'User',
 }

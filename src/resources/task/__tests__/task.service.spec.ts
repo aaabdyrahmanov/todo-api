@@ -19,9 +19,9 @@ describe('task controllers', () => {
    return api.get(`/v1/tasks/${invalidTaskId}`).expect(400);
   });
 
-  it('Tasks #3 - should fail to get the task with missing ID', () => {
+  it('Tasks #3 - should fail to get the task w/internal server err', () => {
    const taskId = 'df625914-a17e-4d81-9572-be1f08387d42';
-   return api.get(`/v1/tasks/${taskId}`).expect(404);
+   return api.get(`/v1/tasks/${taskId}`).expect(500);
   });
  });
 
@@ -32,14 +32,14 @@ describe('task controllers', () => {
  });
 
  describe('PUT /v1/tasks', () => {
-  it('Tasks #6 - should fail to update the task with missing ID', () => {
+  it('Tasks #5 - should fail to update the task with missing ID', () => {
    const taskId = 'df625914';
    return api.put(`/v1/tasks/${taskId}`).expect(400);
   });
 
-  it('Tasks #6 - should fail to update the task with missing ID', () => {
+  it('Tasks #6 - should fail to update the task w/internal server err', () => {
    const taskId = 'df625914-a17e-4d81-9572-be1f08387d42';
-   return api.put(`/v1/tasks/${taskId}`).expect(404);
+   return api.put(`/v1/tasks/${taskId}`).expect(500);
   });
  });
 
@@ -49,9 +49,9 @@ describe('task controllers', () => {
    return api.delete(`/v1/tasks/${invalidTaskId}`).expect(400);
   });
 
-  it('Tasks #8 - should fail to update the task with missing ID', () => {
+  it('Tasks #8 - should fail to update the task w/internal server err', () => {
    const taskId = 'df625914-a17e-4d81-9572-be1f08387d42';
-   return api.delete(`/v1/tasks/${taskId}`).expect(404);
+   return api.delete(`/v1/tasks/${taskId}`).expect(500);
   });
  });
 });

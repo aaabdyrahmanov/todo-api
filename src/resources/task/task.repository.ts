@@ -53,11 +53,14 @@ export const getTask = async (id: string): Promise<Task> => {
 
 export const createTask = async (payload: ITaskPayload): Promise<Task> => {
  const taskRepository = getRepository(Task);
- const task = new Task();
+ const task = await taskRepository.findOne({name: payload.name});
+
+ if (task) throw new AlreadyExistsException(Resource.TASK, task.name);
 
  try {
+  const newTask = new Task();
   const createdTask = await taskRepository.save({
-   ...task,
+   ...newTask,
    ...payload,
   });
 

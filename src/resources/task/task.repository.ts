@@ -1,6 +1,10 @@
 import {getRepository} from 'typeorm';
 
-import {AlreadyExistsException, NotFoundException} from '../../exception';
+import {
+ AlreadyExistsException,
+ InternalServerException,
+ NotFoundException,
+} from '../../exception';
 import {Resource} from '../../types';
 import {Task} from './task.entity';
 import {
@@ -24,12 +28,23 @@ export const getTasks = async (
   where: status ? {isActive: true, status: status} : {isActive: true},
  };
 
- return taskRepository.find(query);
+ try {
+  const tasks = await taskRepository.find(query);
+  return tasks;
+ } catch (err) {
+  throw new InternalServerException((err as Error).message);
+ }
 };
 
 export const getTask = async (id: string): Promise<Task> => {
  const taskRepository = getRepository(Task);
- const task = await taskRepository.findOne(id, {where: {isActive: true}});
+ let task;
+
+ try {
+  task = await taskRepository.findOne(id, {where: {isActive: true}});
+ } catch (err: any) {
+  throw new InternalServerException(err.message);
+ }
 
  if (!task) throw new NotFoundException(Resource.TASK, id);
 
@@ -38,17 +53,23 @@ export const getTask = async (id: string): Promise<Task> => {
 
 export const createTask = async (payload: ITaskPayload): Promise<Task> => {
  const taskRepository = getRepository(Task);
- const task = await taskRepository.findOne({name: payload.name});
+ const task = new Task();
 
- if (task) {
-  throw new AlreadyExistsException(Resource.TASK, task.name);
+ try {
+  const createdTask = await taskRepository.save({
+   ...task,
+   ...payload,
+  });
+
+  return createdTask;
+ } catch (err: any) {
+  // check whether or not
+  // the error is related on being duplicate value
+  if (err.code == 23505) {
+   throw new AlreadyExistsException(Resource.TASK, payload.name);
+  }
+  throw new InternalServerException(err.message);
  }
-
- const createTask = new Task();
- return taskRepository.save({
-  ...createTask,
-  ...payload,
- });
 };
 
 export const updateTask = async (
@@ -62,7 +83,17 @@ export const updateTask = async (
  task.status = payload.status ? payload.status : task.status;
  task.updatedAt = new Date();
 
- return taskRepository.save(task);
+ try {
+  const updatedTask = await taskRepository.save(task);
+  return updatedTask;
+ } catch (err: any) {
+  // check whether or not
+  // the error is related on being duplicate value
+  if (err.code == 23505) {
+   throw new AlreadyExistsException(Resource.TASK, task.name);
+  }
+  throw new InternalServerException(err.message);
+ }
 };
 
 export const deleteTask = async (id: string): Promise<Task> => {
@@ -71,5 +102,10 @@ export const deleteTask = async (id: string): Promise<Task> => {
 
  task.isActive = false;
 
- return taskRepository.save(task);
+ try {
+  const deletedTask = await taskRepository.save(task);
+  return deletedTask;
+ } catch (err) {
+  throw new InternalServerException((err as Error).message);
+ }
 };
